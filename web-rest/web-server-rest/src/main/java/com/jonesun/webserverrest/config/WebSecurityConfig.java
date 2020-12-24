@@ -35,7 +35,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -88,14 +90,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin()
                 .successHandler((httpServletRequest, httpServletResponse, authentication) -> {
-
                     System.out.println("登录成功: " + httpServletRequest.getSession().getId());
-
                     Map<String, Object> map = new HashMap<>();
                     map.put("code", 200);
                     map.put("message", "登录成功");
                     map.put("data", authentication);
-                    httpServletResponse.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+                    httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.toString());
                     PrintWriter out = httpServletResponse.getWriter();
                     out.write(objectMapper.writeValueAsString(map));
                     out.flush();
@@ -103,7 +104,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .failureHandler((req, resp, ex) -> {
 //                    ex.printStackTrace();
-                    resp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+                    resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    resp.setCharacterEncoding(StandardCharsets.UTF_8.toString());
                     resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     PrintWriter out = resp.getWriter();
                     Map<String, Object> map = new HashMap<>();
@@ -127,7 +129,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     map.put("code", 200);
                     map.put("message", "退出成功");
                     map.put("data", authentication);
-                    resp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+                    resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    resp.setCharacterEncoding(StandardCharsets.UTF_8.toString());
                     PrintWriter out = resp.getWriter();
                     out.write(objectMapper.writeValueAsString(map));
                     out.flush();
@@ -138,7 +141,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 //未登录
                 .authenticationEntryPoint((req, resp, authException) -> {
-                    resp.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+                    resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    resp.setCharacterEncoding(StandardCharsets.UTF_8.toString());
                     resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
                     PrintWriter out = resp.getWriter();
                     Map<String, Object> map = new HashMap<>();
@@ -149,10 +153,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     out.close();
                 })
                 //权限不足
-                .accessDeniedHandler((request, response, ex) -> {
-                    response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    PrintWriter out = response.getWriter();
+                .accessDeniedHandler((request, httpServletResponse, ex) -> {
+                    httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+                    httpServletResponse.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                    httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.toString());
+//                    httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    PrintWriter out = httpServletResponse.getWriter();
                     Map<String, Object> map = new HashMap<>();
                     map.put("code", HttpServletResponse.SC_FORBIDDEN);
                     map.put("message", "权限不足");
@@ -164,23 +170,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source =   new UrlBasedCorsConfigurationSource();
+    public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*");    //同源配置，*表示任何请求都视为同源(生产环境尽量在配置文件中动态配置部署到的域名)，若需指定ip和端口可以改为如“localhost：8080”，多个以“，”分隔；
-        corsConfiguration.addAllowedHeader("*");//header，允许哪些header
-        corsConfiguration.addAllowedMethod("*");    //允许的请求方法，POST、GET等
-        source.registerCorsConfiguration("/**",corsConfiguration); //配置允许跨域访问的url
-        return source;
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        //idea 运行静态网页的默认端口为63342
-//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:63342"));
-//        configuration.setAllowedHeaders(Arrays.asList("Cookie"));
-//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-//        configuration.setAllowCredentials(true);
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
+        //1,允许任何来源 *表示任何请求都视为同源(生产环境尽量在配置文件中动态配置部署到的域名)，若需指定ip和端口可以改为如“localhost：8080”
+        corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("*"));
+        //2,允许任何请求头
+        corsConfiguration.addAllowedHeader(CorsConfiguration.ALL);
+        //3,允许任何方法
+        corsConfiguration.addAllowedMethod(CorsConfiguration.ALL);
+        //4,允许凭证
+        corsConfiguration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsFilter(source);
     }
 
 }

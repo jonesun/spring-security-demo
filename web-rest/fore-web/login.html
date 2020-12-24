@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>登录页</title>
@@ -30,6 +30,8 @@
     $(function () {
         $('#loginForm').ajaxForm({
             beforeSubmit: validate,
+            xhrFields: {withCredentials: true},    //前端适配：允许session跨域
+            crossDomain: true,
             success: function(data) {
                 //返回数据处理
                 console.log(data);
