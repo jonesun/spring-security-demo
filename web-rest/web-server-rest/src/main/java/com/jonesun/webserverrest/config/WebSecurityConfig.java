@@ -52,14 +52,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService userDetailsService() {
-
         //获取用户账号密码及权限信息
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                System.out.println("username: " + username);
-                return User.withUsername("admin").password("123456").passwordEncoder(s -> s).roles("USER").build();
-            }
+        return username -> {
+            System.out.println("username: " + username);
+            return User.withUsername("admin").password("123456").passwordEncoder(s -> s).roles("USER").build();
         };
     }
 
@@ -139,7 +135,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 })
                 .permitAll()
                 .and()
-                .csrf().disable()
                 .exceptionHandling()
                 //未登录
                 .authenticationEntryPoint((req, resp, authException) -> {
@@ -166,6 +161,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     out.close();
                 })
         ;
+    }
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        UrlBasedCorsConfigurationSource source =   new UrlBasedCorsConfigurationSource();
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*");    //同源配置，*表示任何请求都视为同源(生产环境尽量在配置文件中动态配置部署到的域名)，若需指定ip和端口可以改为如“localhost：8080”，多个以“，”分隔；
+        corsConfiguration.addAllowedHeader("*");//header，允许哪些header
+        corsConfiguration.addAllowedMethod("*");    //允许的请求方法，POST、GET等
+        source.registerCorsConfiguration("/**",corsConfiguration); //配置允许跨域访问的url
+        return source;
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        //idea 运行静态网页的默认端口为63342
+//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:63342"));
+//        configuration.setAllowedHeaders(Arrays.asList("Cookie"));
+//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        configuration.setAllowCredentials(true);
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
     }
 
 }
