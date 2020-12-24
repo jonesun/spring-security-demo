@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>这是首页</title>
+    <script src="js/jquery-3.5.1.js"></script>
+</head>
+<body>
+这是首页
+<script type="text/javascript">
+    $(function(){
+        $.ajax({
+            type:"get",
+            crossDomain: true,
+            url:"http://localhost:8080/web-server-rest/api/sayHello",
+            xhrFields: {
+                withCredentials: true
+            },
+            success:function(data){
+                console.log(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(jqXHR);
+                console.error(textStatus);
+                console.error(errorThrown);
+                if(jqXHR.status === 403) {
+                    //可以编写一个公共js, 遇到接口返回需要登录时统一跳转到登录页
+                    $(location).attr('href', 'login.html');
+                }
+            }
+        });
+    })
+</script>
+</body>
+</html>

@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/oauth2-server/pom.xml" />
         <option value="$PROJECT_DIR$/cloud-oauth2-server/pom.xml" />
         <option value="$PROJECT_DIR$/web-server/pom.xml" />
+        <option value="$PROJECT_DIR$/web-rest/web-server-rest/pom.xml" />
       </list>
     </option>
   </component>

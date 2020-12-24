@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页</title>
+    <script src="js/jquery-3.5.1.js"></script>
+
+    <script src="js/jquery.form.min.js"></script>
+</head>
+<body>
+<h1>登录页</h1>
+<form id="loginForm" action="http://localhost:8080/web-server-rest/login" method="post">
+    <div>
+        <input type="text" name="username" placeholder="Username"/>
+    </div>
+    <div>
+        <input type="password" name="password" placeholder="Password"/>
+    </div>
+    <input id="submitBtn" type="submit" value="登录" />
+</form>
+<script>
+    // // wait for the DOM to be loaded
+    // $(document).ready(function() {
+    //     // bind 'myForm' and provide a simple callback function
+    //     $('#loginForm').ajaxForm(function() {
+    //         alert("Thank you for your comment!");
+    //     });
+    // });
+
+    $(function () {
+        $('#loginForm').ajaxForm({
+            beforeSubmit: validate,
+            success: function(data) {
+                //返回数据处理
+                alert(data);
+                console.log(data);
+                // $(location).attr('href', 'index.html');
+            }
+        });
+    });
+
+    function validate() {
+        console.log("校验参数");
+    }
+
+    //
+    // $(function(){
+    //     $('#submitBtn').click(function(){
+    //         $("#loginForm").ajaxSubmit(function(data){
+    //             alert(data);
+    //         })
+    //     })
+    //
+    // })
+</script>
+</body>
+</html>
