@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页</title>
+    <script src="js/jquery-3.5.1.js"></script>
+
+    <script src="js/jquery.form.min.js"></script>
+</head>
+<body>
+<h1>登录页</h1>
+<form id="loginForm" action="http://localhost:8080/web-server-jwt/login" method="post">
+    <div>
+        <input type="text" name="username" placeholder="Username" value="admin"/>
+    </div>
+    <div>
+        <input type="password" name="password" placeholder="Password" value="123456"/>
+    </div>
+    <input id="submitBtn" type="submit" value="登录" />
+</form>
+<input id="myBtn" type="button" value="模拟json登录" />
+<script>
+
+    $(function () {
+        $('#loginForm').ajaxForm({
+            beforeSubmit: validate,
+            xhrFields: {withCredentials: true},    //前端适配：允许session跨域
+            crossDomain: true,
+            success: function(data) {
+                //返回数据处理
+                console.log(data);
+                // $(location).attr('href', 'index.html');
+
+                test(data.token);
+            },
+            error: function (ex) {
+                alert(ex);
+                console.log(ex);
+            }
+        });
+
+        $("#myBtn").click(function(){
+            $.ajax({
+                type:"post",
+                crossDomain: true,
+                xhrFields: {
+                    withCredentials: true
+                },
+                url:"http://localhost:8080/web-server-jwt/login",
+                contentType: "application/json;charset=utf-8",
+                data: JSON.stringify({"username":"admin","password":"123456"}),
+                dataType: "json",
+                success:function(data){
+                    console.log(data);
+                    test(data.token);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(jqXHR);
+                    console.error(textStatus);
+                    console.error(errorThrown);
+                }
+            });
+        });
+    });
+
+    function validate() {
+        console.log("校验参数");
+    }
+
+    function test(token) {
+        $.ajax({
+            type:"get",
+            dataType: "json",
+            crossDomain: true,
+            xhrFields: {
+                withCredentials: true
+            },
+            beforeSend: function(request) {
+                // request.setRequestHeader("Authorization", sessionStorage.getItem("Authorization"));
+                request.setRequestHeader("Authorization", token);
+            },
+            url:"http://localhost:8080/web-server-jwt/api/sayHello",
+            success:function(data){
+                console.log(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("异常处理");
+                console.error(jqXHR);
+                console.error(textStatus);
+                console.error(errorThrown);
+                // if(jqXHR.status === 403) {
+                //     //可以编写一个公共js, 遇到接口返回需要登录时统一跳转到登录页
+                //     $(location).attr('href', 'login.html');
+                // }
+            }
+        });
+    }
+</script>
+</body>
+</html>

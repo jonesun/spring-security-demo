@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="spring-security-demo" />
         <module name="oauth2-resource" />
+        <module name="server-jwt" />
         <module name="oauth2-server" />
         <module name="cloud-oauth2-server" />
         <module name="web-server" />
@@ -20,6 +21,7 @@
       <module name="cloud-oauth2-server" options="-parameters" />
       <module name="oauth2-resource" options="-parameters" />
       <module name="oauth2-server" options="-parameters" />
+      <module name="server-jwt" options="-parameters" />
       <module name="web-server" options="-parameters" />
       <module name="web-server-rest" options="-parameters" />
     </option>

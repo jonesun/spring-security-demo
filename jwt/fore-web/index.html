@@ -7,19 +7,22 @@
 </head>
 <body>
 这是首页
+<p><input id="logoutBtn" type="button" value="登出" /></p>
 <script type="text/javascript">
     $(function(){
         $.ajax({
             type:"get",
+            dataType: "json",
             crossDomain: true,
-            url:"http://localhost:8080/web-server-rest/api/sayHello",
             xhrFields: {
                 withCredentials: true
             },
+            url:"http://localhost:8080/web-server-jwt/api/sayHello",
             success:function(data){
                 console.log(data);
             },
             error: function (jqXHR, textStatus, errorThrown) {
+                console.log("异常处理");
                 console.error(jqXHR);
                 console.error(textStatus);
                 console.error(errorThrown);
@@ -29,6 +32,27 @@
                 }
             }
         });
+
+
+        $("#logoutBtn").click(function(){
+            $.ajax({
+                type:"post",
+                crossDomain: true,
+                xhrFields: {
+                    withCredentials: true
+                },
+                url:"http://localhost:8080/web-server-rest/logout",
+                success:function(data){
+                    console.log(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error(jqXHR);
+                    console.error(textStatus);
+                    console.error(errorThrown);
+                }
+            });
+        });
+
     })
 </script>
 </body>
