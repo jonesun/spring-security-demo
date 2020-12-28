@@ -1,4 +1,4 @@
-package com.jonesun.serverjwt;
+package com.jonesun.multiplehttpsecurityserver;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -13,8 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -70,6 +68,8 @@ public class JWTUtils {
 
     public static String buildToken(Authentication authentication) {
         try {
+
+
             //keyId 全数字的随机值
             String keyId = RandomStringUtils.random(32, false, true);
 

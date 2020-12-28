@@ -1,6 +1,6 @@
-package com.jonesun.serverjwt.filter;
+package com.jonesun.multiplehttpsecurityserver.filter;
 
-import com.jonesun.serverjwt.JWTUtils;
+import com.jonesun.multiplehttpsecurityserver.JWTUtils;
 import com.nimbusds.jwt.JWTClaimsSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

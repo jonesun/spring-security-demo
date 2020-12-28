@@ -6,7 +6,6 @@ import com.jonesun.serverjwt.filter.JwtLoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -45,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // 设置默认的加密方式（强hash方式加密）
+        // todo 设置默认的加密方式 此处仅为演示用，实际项目请改为其他加密方式如BCryptPasswordEncoder采用了SHA-256 +随机盐+密钥对密码进行加密，更加安全
         return NoOpPasswordEncoder.getInstance();
     }
 

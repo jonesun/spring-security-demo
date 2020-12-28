@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // 设置默认的加密方式（强hash方式加密）
+        // 设置默认的加密方式
         return NoOpPasswordEncoder.getInstance();
     }
 

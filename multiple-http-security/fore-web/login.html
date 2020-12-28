@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页</title>
+    <script src="js/jquery-3.5.1.js"></script>
+
+    <script src="js/jquery.form.min.js"></script>
+</head>
+<body>
+<h1>登录页</h1>
+<form id="loginForm" action="http://localhost:8080/multiple-http-security-server/fore-web/login" method="post">
+    <div>
+        <input type="text" name="username" placeholder="Username"/>
+    </div>
+    <div>
+        <input type="password" name="password" placeholder="Password"/>
+    </div>
+    <input id="submitBtn" type="submit" value="登录" />
+</form>
+<script>
+
+    $(function () {
+        $('#loginForm').ajaxForm({
+            beforeSubmit: validate,
+            xhrFields: {withCredentials: true},    //前端适配：允许session跨域
+            crossDomain: true,
+            success: function(data) {
+                //返回数据处理
+                console.log(data);
+                $(location).attr('href', 'index.html');
+            },
+            error: function (ex) {
+                alert(ex);
+                console.log(ex);
+            }
+        });
+    });
+
+    function validate() {
+        console.log("校验参数");
+    }
+
+</script>
+</body>
+</html>
