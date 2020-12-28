@@ -92,7 +92,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     out.flush();
                     out.close();
                 });
-//        http.addFilterAt(myAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
@@ -111,50 +110,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(source);
     }
-
-//    @Bean
-//    MyUsernamePasswordAuthenticationFilter myAuthenticationFilter() throws Exception {
-//        MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter();
-//        filter.setAuthenticationSuccessHandler(new AuthenticationSuccessHandler() {
-//            @Override
-//            public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
-//                resp.setContentType("application/json;charset=utf-8");
-//                PrintWriter out = resp.getWriter();
-//                Map<String, Object> map = new HashMap<>();
-//                map.put("status", 200);
-//                map.put("msg", authentication.getPrincipal());
-//                out.write(new ObjectMapper().writeValueAsString(map));
-//                out.flush();
-//                out.close();
-//            }
-//        });
-//        filter.setAuthenticationFailureHandler(new AuthenticationFailureHandler() {
-//            @Override
-//            public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException e) throws IOException, ServletException {
-//                resp.setContentType("application/json;charset=utf-8");
-//                PrintWriter out = resp.getWriter();
-//                Map<String, Object> map = new HashMap<>();
-//                map.put("status", 401);
-//                if (e instanceof LockedException) {
-//                    map.put("msg", "账户被锁定，登录失败!");
-//                } else if (e instanceof BadCredentialsException) {
-//                    map.put("msg", "用户名或密码输入错误，登录失败!");
-//                } else if (e instanceof DisabledException) {
-//                    map.put("msg", "账户被禁用，登录失败!");
-//                } else if (e instanceof AccountExpiredException) {
-//                    map.put("msg", "账户过期，登录失败!");
-//                } else if (e instanceof CredentialsExpiredException) {
-//                    map.put("msg", "密码过期，登录失败!");
-//                } else {
-//                    map.put("msg", "登录失败!");
-//                }
-//                out.write(new ObjectMapper().writeValueAsString(map));
-//                out.flush();
-//                out.close();
-//            }
-//        });
-//        filter.setAuthenticationManager(authenticationManagerBean());
-//        return filter;
-//    }
 
 }

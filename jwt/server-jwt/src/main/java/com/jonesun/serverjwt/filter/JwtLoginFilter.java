@@ -1,16 +1,14 @@
 package com.jonesun.serverjwt.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jonesun.serverjwt.JWTUtils;
 import com.jonesun.serverjwt.LoginUser;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -20,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,26 +55,8 @@ public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse resp, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        // 获取登录用户的角色
-        Collection<? extends GrantedAuthority> authorities = authResult.getAuthorities();
-        StringBuffer sb = new StringBuffer();
-        for (GrantedAuthority authority : authorities) {
-            sb.append(authority.getAuthority()).append(",");
-        }
-
-        // 生成 token 并返回
-        // 数据格式：分 3 部分用 . 隔开，如：eyJhbGciOiJIUzUxMiJ9.eyJhdXRob3JpdGllcyI6IlJPTEVfdXNlciwiLCJzdWIiOiJ1c2VyIiwiZXhwIjoxNTc0NzczNTkyfQ.FuPIltzXi5j14t_gSL1GoIMUZxTHKK0FvB3gds6eTZFDkQr1ZxWVxdqZ5YFbCxdkwQ_VXtPK-GgcW5Kzzx3wvw
-        // 1.Header：头部（声明类型、加密算法），采用 Base64 编码，如：eyJhbGciOiJIUzUxMiJ9
-        // 2.Payload：载荷，就是有效数据，采用 Base64 编码，如：eyJhdXRob3JpdGllcyI6IlJPTEVfdXNlciwiLCJzdWIiOiJ1c2VyIiwiZXhwIjoxNTc0NzczNTkyfQ
-        // 3.Signature：签名，是整个数据的认证信息。一般根据前两步的数据，再加上服务的的密钥 secret （密钥保存在服务端，不能泄露给客户端），通过 Header 中配置的加密算法生成。用于验证整个数据完整和可靠性。
-        String jwt = Jwts.builder()
-                .claim("authorities", sb) // 配置用户角色
-                .setSubject(authResult.getName()) // 配置主题
-                .setExpiration(new Date(System.currentTimeMillis() + 60 * 60 * 1000)) // 配置过期时间
-                .signWith(SignatureAlgorithm.HS512, "abc123") // 配置加密算法和密钥
-                .compact();
-
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse resp, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+        String jwt = JWTUtils.buildToken(authentication);
 
         resp.setContentType("application/json;charset=utf-8");
         Map<String, String> map = new HashMap<>();

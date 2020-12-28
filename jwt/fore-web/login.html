@@ -29,9 +29,9 @@
             success: function(data) {
                 //返回数据处理
                 console.log(data);
-                // $(location).attr('href', 'index.html');
 
-                test(data.token);
+                //测试是否可以获取到数据
+                test("Bearer " + data.token);
             },
             error: function (ex) {
                 alert(ex);

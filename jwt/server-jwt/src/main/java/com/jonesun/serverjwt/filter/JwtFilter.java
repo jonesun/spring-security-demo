@@ -1,11 +1,13 @@
 package com.jonesun.serverjwt.filter;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
+import com.jonesun.serverjwt.JWTUtils;
+import com.nimbusds.jwt.JWTClaimsSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -16,6 +18,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 校验 token 的过滤器
@@ -25,6 +28,8 @@ import java.util.List;
  * @date 2020-12-25 11:06
  */
 public class JwtFilter extends GenericFilterBean {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -37,14 +42,14 @@ public class JwtFilter extends GenericFilterBean {
             return;
         }
 
-        Jws<Claims> jws = Jwts.parser()
-                .setSigningKey("abc@123")
-                .parseClaimsJws(jwtToken.replace("Bearer", ""));
-        Claims claims = jws.getBody();
+        //todo 校验后需做一些逻辑上的判断: 如是否为空、是否有效等
+        JWTClaimsSet jwtClaimsSet = JWTUtils.verifyToken(jwtToken.replace("Bearer ", ""));
         // 获取用户名
-        String username = claims.getSubject();
+        String username = jwtClaimsSet.getSubject();
+        logger.info("username: " + username);
+
         // 获取用户角色，注意 "authorities" 要与生成 token 时的保持一致
-        List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get("authorities"));
+        List<GrantedAuthority> authorities = jwtClaimsSet.getAudience().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(token);
         filterChain.doFilter(servletRequest, servletResponse);
