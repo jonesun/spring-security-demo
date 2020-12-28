@@ -15,7 +15,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -24,6 +27,7 @@ import org.springframework.web.filter.CorsFilter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -37,14 +41,33 @@ import java.util.Map;
 @Configuration
 public class MultiHttpSecurityConfig {
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        // todo 设置默认的加密方式 此处仅为演示用，实际项目请改为其他加密方式如BCryptPasswordEncoder采用了SHA-256 +随机盐+密钥对密码进行加密，更加安全
+        return NoOpPasswordEncoder.getInstance();
+    }
+
+
+    @Autowired
+    DataSource dataSource;
 
     @Bean
     public UserDetailsService userDetailsService() throws Exception {
-        // ensure the passwords are encoded properly
-        User.UserBuilder users = User.withDefaultPasswordEncoder();
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(users.username("user").password("111111").roles("USER").build());
-        manager.createUser(users.username("admin").password("123456").roles("USER", "ADMIN").build());
+//        // ensure the passwords are encoded properly
+//        User.UserBuilder users = User.withDefaultPasswordEncoder();
+//        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+//        manager.createUser(users.username("user").password("111111").roles("USER").build());
+//        manager.createUser(users.username("admin").password("123456").roles("USER", "ADMIN").build());
+
+        JdbcUserDetailsManager manager = new JdbcUserDetailsManager();
+        manager.setDataSource(dataSource);
+        //todo 为测试方便手动加入两个用户 实际项目根据自己需要改为注册方式
+        if (!manager.userExists("admin")) {
+            manager.createUser(User.withUsername("admin").password("123456").roles("USER", "ADMIN").build());
+        }
+        if (!manager.userExists("user")) {
+            manager.createUser(User.withUsername("user").password("111111").roles("USER").build());
+        }
         return manager;
     }
 

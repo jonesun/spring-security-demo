@@ -3,3 +3,9 @@ server:
   servlet:
     context-path: /multiple-http-security-server
 
+spring:
+  datasource:
+    password: root123
+    url: jdbc:mysql://localhost:3306/spring_security_test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+
