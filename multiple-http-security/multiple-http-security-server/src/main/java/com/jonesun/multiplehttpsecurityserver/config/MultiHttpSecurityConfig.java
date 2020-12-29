@@ -3,6 +3,7 @@ package com.jonesun.multiplehttpsecurityserver.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jonesun.multiplehttpsecurityserver.filter.JwtFilter;
 import com.jonesun.multiplehttpsecurityserver.filter.JwtLoginFilter;
+import com.jonesun.multiplehttpsecurityserver.service.MybatisUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +16,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -33,6 +34,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author jone.sun
@@ -44,7 +46,8 @@ public class MultiHttpSecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         // todo 设置默认的加密方式 此处仅为演示用，实际项目请改为其他加密方式如BCryptPasswordEncoder采用了SHA-256 +随机盐+密钥对密码进行加密，更加安全
-        return NoOpPasswordEncoder.getInstance();
+//        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
 
@@ -63,12 +66,14 @@ public class MultiHttpSecurityConfig {
         manager.setDataSource(dataSource);
         //todo 为测试方便手动加入两个用户 实际项目根据自己需要改为注册方式
         if (!manager.userExists("admin")) {
-            manager.createUser(User.withUsername("admin").password("123456").roles("USER", "ADMIN").build());
+            manager.createUser(User.withUsername("admin").password("123456").passwordEncoder(s -> new BCryptPasswordEncoder().encode(s)).roles("USER", "ADMIN").build());
         }
         if (!manager.userExists("user")) {
-            manager.createUser(User.withUsername("user").password("111111").roles("USER").build());
+            manager.createUser(User.withUsername("user").password("111111").passwordEncoder(s -> new BCryptPasswordEncoder().encode(s)).roles("USER").build());
         }
         return manager;
+
+//        return new MybatisUserDetailsService();
     }
 
     @Configuration

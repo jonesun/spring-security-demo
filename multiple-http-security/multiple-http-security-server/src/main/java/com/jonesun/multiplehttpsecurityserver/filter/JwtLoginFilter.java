@@ -2,7 +2,7 @@ package com.jonesun.multiplehttpsecurityserver.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jonesun.multiplehttpsecurityserver.JWTUtils;
-import com.jonesun.multiplehttpsecurityserver.LoginUser;
+import com.jonesun.multiplehttpsecurityserver.model.LoginUser;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;

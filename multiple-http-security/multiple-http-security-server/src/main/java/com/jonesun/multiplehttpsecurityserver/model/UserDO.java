@@ -1,14 +1,14 @@
-package com.jonesun.multiplehttpsecurityserver;
-
-import java.io.Serializable;
+package com.jonesun.multiplehttpsecurityserver.model;
 
 /**
  * @author jone.sun
- * @date 2020-12-25 11:45
+ * @date 2020-12-29 14:06
  */
-public class LoginUser implements Serializable {
+public class UserDO {
+
     private String username;
     private String password;
+    private Boolean enabled;
 
     public String getUsername() {
         return username;
@@ -24,5 +24,13 @@ public class LoginUser implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 }
