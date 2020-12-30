@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="spring-security-demo" />
         <module name="oauth2-resource" />
+        <module name="oauth2-client" />
         <module name="multiple-http-security-server" />
         <module name="server-jwt" />
         <module name="java-app" />
@@ -22,6 +23,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cloud-oauth2-server" options="-parameters" />
       <module name="multiple-http-security-server" options="-parameters" />
+      <module name="oauth2-client" options="-parameters" />
       <module name="oauth2-resource" options="-parameters" />
       <module name="oauth2-server" options="-parameters" />
       <module name="server-jwt" options="-parameters" />

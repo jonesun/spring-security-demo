@@ -1,0 +1,16 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /oauth2-client
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: '2a84d0afc9ee34a4c50d'
+            client-secret: '8bc700fe7c19c94c01671f29886291895368c71a'
+          gitee:
+            client-id: 'f08520df5414f0ab9719467c8d987f1c35026c2c2d8d3190095eaec8379f0e07'
+            client-secret: 'e5ee3c0c718dec34b120ace23fd604310c13d34ffb4eef6acc88a0d44aae06e3'

@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/jwt/server-jwt/pom.xml" />
         <option value="$PROJECT_DIR$/multiple-http-security/multiple-http-security-server/pom.xml" />
         <option value="$PROJECT_DIR$/multiple-http-security/java-app/pom.xml" />
+        <option value="$PROJECT_DIR$/oauth2/oauth2-client/pom.xml" />
       </list>
     </option>
   </component>
