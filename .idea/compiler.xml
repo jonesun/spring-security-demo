@@ -9,24 +9,34 @@
         <module name="spring-security-demo" />
         <module name="oauth2-resource" />
         <module name="oauth2-client" />
-        <module name="multiple-http-security-server" />
         <module name="server-jwt" />
-        <module name="java-app" />
-        <module name="oauth2-server" />
-        <module name="cloud-oauth2-server" />
         <module name="web-server" />
         <module name="web-server-rest" />
+        <module name="multiple-http-security-server" />
+        <module name="java-app" />
+        <module name="oauth2-server" />
+        <module name="oauth2-resource-server" />
+        <module name="oauth2-auth-server-keycloak" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="cloud-oauth2-server" target="15" />
+      <module name="oauth2-client-sample" target="15" />
+      <module name="spring-authorization-server-demo" target="15" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cloud-oauth2-server" options="-parameters" />
       <module name="multiple-http-security-server" options="-parameters" />
+      <module name="oauth2-auth-server-keycloak" options="-parameters" />
       <module name="oauth2-client" options="-parameters" />
+      <module name="oauth2-client-sample" options="-parameters" />
       <module name="oauth2-resource" options="-parameters" />
+      <module name="oauth2-resource-server" options="-parameters" />
       <module name="oauth2-server" options="-parameters" />
       <module name="server-jwt" options="-parameters" />
+      <module name="spring-authorization-server-demo" options="-parameters" />
       <module name="web-server" options="-parameters" />
       <module name="web-server-rest" options="-parameters" />
     </option>

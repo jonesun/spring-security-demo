@@ -7,13 +7,14 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/oauth2-resource/pom.xml" />
         <option value="$PROJECT_DIR$/oauth2-server/pom.xml" />
-        <option value="$PROJECT_DIR$/cloud-oauth2-server/pom.xml" />
         <option value="$PROJECT_DIR$/web-server/pom.xml" />
         <option value="$PROJECT_DIR$/web-rest/web-server-rest/pom.xml" />
         <option value="$PROJECT_DIR$/jwt/server-jwt/pom.xml" />
         <option value="$PROJECT_DIR$/multiple-http-security/multiple-http-security-server/pom.xml" />
         <option value="$PROJECT_DIR$/multiple-http-security/java-app/pom.xml" />
         <option value="$PROJECT_DIR$/oauth2/oauth2-client/pom.xml" />
+        <option value="$PROJECT_DIR$/oauth2/oauth2-resource-server/pom.xml" />
+        <option value="$PROJECT_DIR$/oauth2/oauth2-auth-server-keycloak/pom.xml" />
       </list>
     </option>
   </component>
