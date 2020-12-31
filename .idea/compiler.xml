@@ -9,13 +9,13 @@
         <module name="spring-security-demo" />
         <module name="oauth2-resource" />
         <module name="oauth2-client" />
-        <module name="server-jwt" />
-        <module name="web-server" />
-        <module name="web-server-rest" />
         <module name="multiple-http-security-server" />
+        <module name="server-jwt" />
         <module name="java-app" />
         <module name="oauth2-server" />
         <module name="oauth2-resource-server" />
+        <module name="web-server" />
+        <module name="web-server-rest" />
         <module name="oauth2-auth-server-keycloak" />
       </profile>
     </annotationProcessing>

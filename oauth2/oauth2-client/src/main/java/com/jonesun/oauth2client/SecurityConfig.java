@@ -14,11 +14,11 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    ClientRegistrationRepository clientRegistrationRepository;
-
-    @Autowired
-    OAuth2AuthorizedClientService authorizedClientService;
+//    @Autowired
+//    ClientRegistrationRepository clientRegistrationRepository;
+//
+//    @Autowired
+//    OAuth2AuthorizedClientService authorizedClientService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,9 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2Login()
                 .loginPage("/login")
                 .defaultSuccessUrl("/index", true)
-                .failureUrl("/error")
-                .clientRegistrationRepository(clientRegistrationRepository)
-                .authorizedClientService(authorizedClientService);
+                .failureUrl("/error");
+        //如果想要完全自定义的话，可以使用以下代码
+//                .clientRegistrationRepository(clientRegistrationRepository)
+//                .authorizedClientService(authorizedClientService);
     }
 
 }
