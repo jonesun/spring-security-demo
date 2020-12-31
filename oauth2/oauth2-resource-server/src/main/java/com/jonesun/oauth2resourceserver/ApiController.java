@@ -1,0 +1,25 @@
+package com.jonesun.oauth2resourceserver;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @author jone.sun
+ * @date 2020-12-31 15:19
+ */
+@RestController
+@RequestMapping("/api")
+public class ApiController {
+
+//    ###
+//    GET http://localhost:8180/oauth2-resource-server/api/hello
+//    authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJJYV9uS2NHY1hkR3FNbWFTQ0RySkR2ZzNzYS1lN21RX2xRLTNnQkhocDAwIn0.eyJleHAiOjE2MDk0MDQzNzIsImlhdCI6MTYwOTQwNDA3MiwiYXV0aF90aW1lIjoxNjA5NDAzODk0LCJqdGkiOiI4ZjQwNzA3Yi1mMzRmLTQwZGYtYjIyNi1iYjNjMTlkNzFlMjkiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODMvYXV0aC9yZWFsbXMvam9uZXN1biIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiJkYmYyMDE5Yi05N2U4LTQzZDQtOWEyNi00YTQzZGVhZmU5NjMiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJvYXV0aDItY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6IjM3MmNlYmE3LThlZGItNDFhNi1iNWIwLWQxYTdmYThhMGNmMyIsImFjciI6IjAiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCBqb25lc3Vuc2VjdXJpdHkiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJqb25lIHN1biIsInByZWZlcnJlZF91c2VybmFtZSI6ImpvbmVzdW4iLCJnaXZlbl9uYW1lIjoiam9uZSIsImZhbWlseV9uYW1lIjoic3VuIiwiZW1haWwiOiJzdW5qb25lcjdAZ21haWwuY29tIn0.Rbuid4-yksJ1JDPSQ-I4QBKvsPlGAM0lDun1VTtULEOnAlEgQpGRj8vtPfA4IKUql1o3JPO-x2HAhTTE49Ux7kBRjVbIXByktCbF3jo4W4VgKDULYur7SwJNfXbCRMnV0Rb0g1KMUZ8o0PTuZrVRK_24YrA2N1rbkeqdToTT4KqGcbFrhNADWgZuFQAyjAXLLVn4SzFAU1tI_L54GOGzy7uVf-fEzvUhrvlYQu2P_4e6RBRGjTSVCyJYrLykRwFGUNNPifROfQMv_YSniN4MdNJQyyoSy9WfJeM95rRvwDI9Jp5piR-WRDusGn0udd4A58KLCjOPKXsp27Pk1jnDxg
+//    Content-Type: application/x-www-form-urlencoded
+
+    @GetMapping("/hello")
+    public String apiHelloWorld() {
+        return "apiHelloWorld";
+    }
+
+}

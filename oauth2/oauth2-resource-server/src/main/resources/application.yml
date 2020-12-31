@@ -9,5 +9,5 @@ spring:
       resourceserver:
         jwt:
           # 授权服务器将颁发的JWT令牌的iss声明中包含的值
-          issuer-uri: http://localhost:8083/auth/realms/baeldung
-          jwk-set-uri: http://localhost:8083/auth/realms/baeldung/protocol/openid-connect/certs
+          issuer-uri: http://localhost:8083/auth/realms/jonesun
+          jwk-set-uri: http://localhost:8083/auth/realms/jonesun/protocol/openid-connect/certs

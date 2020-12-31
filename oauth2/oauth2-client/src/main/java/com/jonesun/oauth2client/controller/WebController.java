@@ -79,6 +79,7 @@ public class WebController {
                     .exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
             Map userAttributes = response.getBody();
             model.addAttribute("name", userAttributes.get("name"));
+            System.out.println("accessToken: " + headers.getFirst(HttpHeaders.AUTHORIZATION));
         }
         return "index";
     }

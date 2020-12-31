@@ -18,9 +18,22 @@ spring:
             authorizationGrantType: authorization_code
             redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             clientName: '码云'
+          keycloak:
+            provider: keycloak
+            client-id: oauth2-client
+            client-secret: d7a1acbc-40c8-4c68-a903-b5d01dac2a35
+            authorizationGrantType: authorization_code
+            redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+            clientName: 'keycloak'
         provider:
           gitee:
             authorization-uri: https://gitee.com/oauth/authorize
             token-uri: https://gitee.com/oauth/token
             user-info-uri: https://gitee.com/api/v5/user
             user-name-attribute: "name"
+          keycloak:
+            issuer-uri: http://localhost:8083/auth/realms/jonesun
+            authorization-uri: http://localhost:8083/auth/realms/jonesun/protocol/openid-connect/auth
+            token-uri: http://localhost:8083/auth/realms/jonesun/protocol/openid-connect/token
+            jwk-set-uri: http://localhost:8083/auth/realms/jonesun/protocol/openid-connect/certs
+            user-info-uri: http://localhost:8083/auth/realms/jonesun/protocol/openid-connect/userinfo
